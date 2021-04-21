@@ -27,7 +27,7 @@ class ParticipantInitializeIngress extends AkkaStreamlet {
       val flatFiles           = Flow[Vector[String]].mapConcat(identity)
       val filterValidAccounts = Flow[String].filter(isValid)
       val extractingAccounts  = Flow[String].map(extractParticipantsAndValue)
-      val removeValue         = Flow[(String, String, String)].map { case (p1, p2, v) => List(p1, p2) }
+      val removeValue         = Flow[(String, String, Long)].map { case (p1, p2, v) => List(p1, p2) }
       val flatParticipants    = Flow[List[String]].mapConcat(identity)
       val generateBankAccount = Flow[String].map(account => BankAccount(account, generateBalance()))
 

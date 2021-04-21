@@ -26,7 +26,7 @@ object PaymentUtils {
    * @param payment participant1->participant2:value type of string
    * @return (participant1, participant2, value)
    */
-  def extractParticipantsAndValue(payment: String): (String, String, String) = {
+  def extractParticipantsAndValue(payment: String): (String, String, Long) = {
     // Decided to try an easier solution with Regex. Haven't tested it, so a few bugs might occur.
     // In the case, use commented code below.
     val namePattern    = "[a-zA-Z0-9]+".r
@@ -35,7 +35,7 @@ object PaymentUtils {
 
     val paymentPattern(firstParticipant, secondParticipant, value) = payment
 
-    (firstParticipant, secondParticipant, value)
+    (firstParticipant, secondParticipant, value.toLong)
 
     //    val endOfFirstParticipant = payment.indexOf("-")
     //    val firstParticipant = payment.substring(0, endOfFirstParticipant)
