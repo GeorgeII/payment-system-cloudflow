@@ -4,7 +4,8 @@ import scala.util.Random
 
 object PaymentUtils {
 
-  private val rnd = new Random
+  // passing seed so the generated numbers are reproducible
+  private val rnd = new Random(42)
 
   /**
    * @return random Long in range [10_000, 110_000).
