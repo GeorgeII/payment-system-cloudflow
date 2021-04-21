@@ -33,7 +33,7 @@ class ParticipantInitializeIngress extends AkkaStreamlet {
 
       sourceFiles
         .via(linesFromFile)
-          .via(flatFiles)
+        .via(flatFiles)
         .via(filterValidAccounts).async
         .via(extractingAccounts).async
         .via(removeValue).async

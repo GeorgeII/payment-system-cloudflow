@@ -10,9 +10,8 @@ object PaymentUtils {
   /**
    * @return random Long in range [10_000, 110_000).
    */
-  def generateBalance(): Long = {
-    rnd.nextLong(100_000) + 10_000
-  }
+  def generateBalance(): Long =
+    rnd.nextInt(100000) + 10000
 
   def isValid(payment: String): Boolean = {
     val namePattern    = "[a-zA-Z0-9]+".r
