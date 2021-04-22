@@ -8,9 +8,9 @@ import paymentdata.utils.PaymentUtils.{ extractParticipantsAndValue, isValid }
 
 class PaymentCheckingStreamlet extends FlinkStreamlet {
 
-  @transient val in         = AvroInlet[Transfer]("transfer-data")
-  @transient val outInvalid = AvroOutlet[InvalidTransfer]("validation")
-  @transient val outPayment = AvroOutlet[ParsedPayment]("payments")
+  @transient val in         = AvroInlet[Transfer]("in")
+  @transient val outInvalid = AvroOutlet[InvalidTransfer]("invalid")
+  @transient val outPayment = AvroOutlet[ParsedPayment]("out  ")
 
   def shape =
     StreamletShape

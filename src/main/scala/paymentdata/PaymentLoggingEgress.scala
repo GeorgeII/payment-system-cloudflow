@@ -8,7 +8,7 @@ import cloudflow.streamlets.avro.AvroInlet
 
 class PaymentLoggingEgress extends AkkaStreamlet {
 
-  val in    = AvroInlet[InvalidTransfer]("validation")
+  val in    = AvroInlet[InvalidTransfer]("in")
   def shape = StreamletShape.withInlets(in)
 
   override def createLogic() = new RunnableGraphStreamletLogic() {

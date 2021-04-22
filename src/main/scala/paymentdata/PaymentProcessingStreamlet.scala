@@ -12,7 +12,7 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
 
   @transient val inParticipants = AvroInlet[BankAccount]("accounts")
   @transient val inPayments     = AvroInlet[ParsedPayment]("payments")
-  @transient val outInvalid     = AvroOutlet[InvalidTransfer]("validation")
+  @transient val outInvalid     = AvroOutlet[InvalidTransfer]("invalid")
 
   override def shape = StreamletShape.withInlets(inParticipants, inPayments).withOutlets(outInvalid)
 
