@@ -33,7 +33,7 @@ class PaymentCheckingStreamlet extends FlinkStreamlet {
       val invalidTransfers =
         transfers
           .filter(transfer => !isValid(transfer.data))
-          .map(transfer => InvalidTransfer(transfer.data, "Invalid transaction. Incorrect attributes."))
+          .map(transfer => InvalidTransfer(transfer.data, "IncorrectAttributes"))
 
       writeStream(outPayment, validPayments)
       writeStream(outInvalid, invalidTransfers)

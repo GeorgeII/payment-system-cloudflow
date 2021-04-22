@@ -75,12 +75,12 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
           accountsState.put(to, balanceTo + value)
           out.collect(Right(SuccessfulPayment(s"Payment $payment was successfully processed.")))
         } else {
-          out.collect(Left(InvalidTransfer(payment.toString, "Insufficient balance. Payment got rejected.")))
+          out.collect(Left(InvalidTransfer(payment.toString, "InsufficientBalance")))
         }
       } else {
         out.collect(
           Left(
-            InvalidTransfer(payment.toString, "One of participant (or both) has not been initialized yet.")
+            InvalidTransfer(payment.toString, "AccountNotFound")
           )
         )
       }
