@@ -26,13 +26,8 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
         keyedAccounts
           .connect(readStream(inPayments))
           .flatMap(new EnrichmentFunction)
-          .filter({
-            case Left(_) => true
-            case _       => false
-          })
-          .map {
-            case Left(invalidTransfer) => invalidTransfer
-          }
+          .filter(_.isLeft)
+          .map(_.left.get)
 
       writeStream(outInvalid, processedPayments)
     }
