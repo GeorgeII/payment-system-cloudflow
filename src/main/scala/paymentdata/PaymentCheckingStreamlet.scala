@@ -10,7 +10,7 @@ class PaymentCheckingStreamlet extends FlinkStreamlet {
 
   @transient val in         = AvroInlet[Transfer]("in")
   @transient val outInvalid = AvroOutlet[InvalidTransfer]("invalid")
-  @transient val outPayment = AvroOutlet[ParsedPayment]("out  ")
+  @transient val outPayment = AvroOutlet[ParsedPayment]("out")
 
   def shape =
     StreamletShape
