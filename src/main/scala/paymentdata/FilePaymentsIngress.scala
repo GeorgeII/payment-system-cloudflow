@@ -22,9 +22,12 @@ class FilePaymentsIngress extends AkkaStreamlet {
       val wrapping      = Flow[String].map(payment => Transfer(payment))
 
       sourceFiles
-        .via(linesFromFile).async
-        .via(flattening).async
-        .via(wrapping).async
+        .via(linesFromFile)
+        .async
+        .via(flattening)
+        .async
+        .via(wrapping)
+        .async
         .to(plainSink(out))
     }
   }

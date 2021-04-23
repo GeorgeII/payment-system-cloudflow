@@ -34,11 +34,15 @@ class ParticipantInitializeIngress extends AkkaStreamlet {
       sourceFiles
         .via(linesFromFile)
         .via(flatFiles)
-        .via(filterValidAccounts).async
-        .via(extractingAccounts).async
-        .via(removeValue).async
+        .via(filterValidAccounts)
+        .async
+        .via(extractingAccounts)
+        .async
+        .via(removeValue)
+        .async
         .via(flatParticipants)
-        .via(generateBankAccount).async
+        .via(generateBankAccount)
+        .async
         .to(plainSink(out))
     }
   }

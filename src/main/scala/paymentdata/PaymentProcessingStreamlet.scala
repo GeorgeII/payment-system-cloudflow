@@ -35,8 +35,7 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
 
   case class SuccessfulPayment(message: String)
 
-  class EnrichmentFunction
-    extends RichCoFlatMapFunction[BankAccount, ParsedPayment, Either[InvalidTransfer, SuccessfulPayment]] {
+  class EnrichmentFunction extends RichCoFlatMapFunction[BankAccount, ParsedPayment, Either[InvalidTransfer, SuccessfulPayment]] {
 
     type Balance = Long
 
