@@ -13,7 +13,7 @@ object Dependencies {
   )
 
   object versions {
-    val cloudflow   = "2.0.25"
+    val cloudflow   = "2.0.18"
     val alpakka     = "1.1.2"
     val `akka-http` = "10.1.12"
     val logback     = "1.2.3"

@@ -3,9 +3,9 @@
 lazy val paymentSystem =  (project in file("."))
   .enablePlugins(CloudflowApplicationPlugin)
   .settings(
-    scalaVersion := "2.12.8",
+    scalaVersion := "2.12.10",
     runLocalConfigFile := Some("src/main/resources/local.conf"), //<1>
-    runLocalLog4jConfigFile := Some("src/main/resources/log4j.xml"), //<2>
+//    runLocalLog4jConfigFile := Some("src/main/resources/log4j.xml"), //<2>
     name := "payment-system-cloudflow",
     //end::local-conf[]
 
