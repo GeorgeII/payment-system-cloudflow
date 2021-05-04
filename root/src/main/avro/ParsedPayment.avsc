@@ -1,0 +1,19 @@
+{
+  "namespace": "paymentdata",
+  "type": "record",
+  "name": "ParsedPayment",
+  "fields": [
+    {
+      "name": "fromParticipant",
+      "type": "string"
+    },
+    {
+      "name": "toParticipant",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "long"
+    }
+  ]
+}

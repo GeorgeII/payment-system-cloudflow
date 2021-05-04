@@ -1,0 +1,15 @@
+{
+  "namespace": "paymentdata",
+  "type": "record",
+  "name": "InvalidTransfer",
+  "fields": [
+    {
+      "name": "transfer",
+      "type": "string"
+    },
+    {
+      "name": "reason",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "namespace": "paymentdata",
+  "type": "record",
+  "name": "BankAccount",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": "string"
+    },
+    {
+      "name": "balance",
+      "type": "long"
+    }
+  ]
+}
