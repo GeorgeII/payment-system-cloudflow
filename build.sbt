@@ -81,8 +81,8 @@ lazy val paymentChecker = appModule("payment-checker")
 //    paymentProcessor
 //  )
 
-lazy val participantInitializer = appModule("payment-initializer")
-  .enablePlugins(CloudflowApplicationPlugin, CloudflowAkkaPlugin)
+lazy val participantInitializer = appModule("participant-initializer")
+  .enablePlugins(CloudflowAkkaPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
