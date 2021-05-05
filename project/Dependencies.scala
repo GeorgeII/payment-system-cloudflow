@@ -8,12 +8,14 @@ object Dependencies {
     "com.lightbend.akka" %% "akka-stream-alpakka-file" % versions.alpakka,
     "com.typesafe.akka"  %% "akka-http-spray-json"     % versions.`akka-http`,
     "ch.qos.logback"     % "logback-classic"           % versions.logback,
+    "com.typesafe.akka"  %% "akka-protobuf"            % versions.akka,
     "com.typesafe.akka"  %% "akka-http-testkit"        % versions.`akka-http` % "test",
     "org.scalatest"      %% "scalatest"                % versions.scalatest   % "test"
   )
 
   object versions {
     val cloudflow   = "2.0.18"
+    val akka        = "2.6.10"
     val alpakka     = "1.1.2"
     val `akka-http` = "10.1.12"
     val logback     = "1.2.3"
