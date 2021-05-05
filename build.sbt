@@ -2,14 +2,16 @@ scalaVersion in ThisBuild := "2.12.10"
 
 val appName = "payment-system-cloudflow"
 
-lazy val root = Project(id = appName, base = file("."))
+lazy val global = Project(id = appName, base = file("."))
   .settings(
     name := appName
   )
   .aggregate(
+    root,
+    utils,
+    participantInitializer,
     paymentIngress,
     paymentChecker,
-    participantInitializer,
     paymentLogger,
     paymentProcessor
   )
@@ -58,64 +60,70 @@ lazy val root = Project(id = appName, base = file("."))
 dynverSeparator in ThisBuild := "-"
 
 
+
+lazy val root = appModule("root")
+  .enablePlugins(CloudflowApplicationPlugin)
+  .settings(
+    runLocalConfigFile := Some("src/main/resources/local.conf"), //<1>
+//    runLocalLog4jConfigFile := Some("src/main/resources/log4j.xml"), //<2>
+    libraryDependencies ++= Dependencies.all
+  )
+
+lazy val utils = appModule("utils")
+  .settings(
+    libraryDependencies ++= Dependencies.all
+  )
+  .dependsOn(
+    root
+  )
+
 lazy val paymentIngress = appModule("payment-ingress")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
-  .dependsOn()
-
-//  .dependsOn(
-//    paymentChecker,
-//  )
+  .dependsOn(
+    root,
+    utils
+  )
 
 lazy val paymentChecker = appModule("payment-checker")
   .enablePlugins(CloudflowFlinkPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
-//  .dependsOn(
-//    paymentIngress,
-//    participantInitializer,
-//    paymentLogger,
-//    paymentProcessor
-//  )
+  .dependsOn(
+    root,
+    utils
+  )
 
 lazy val participantInitializer = appModule("participant-initializer")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
-//  .dependsOn(
-//    paymentIngress,
-//    paymentChecker,
-//    paymentLogger,
-//    paymentProcessor
-//  )
+  .dependsOn(
+    root,
+    utils
+  )
 
 lazy val paymentLogger = appModule("payment-logger")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
-//  .dependsOn(
-//    paymentIngress,
-//    paymentChecker,
-//    participantInitializer,
-//    paymentProcessor
-//  )
+  .dependsOn(
+    root
+  )
 
 lazy val paymentProcessor = appModule("payment-processor")
   .enablePlugins(CloudflowFlinkPlugin)
   .settings(
     libraryDependencies ++= Dependencies.all
   )
-//  .dependsOn(
-//    paymentIngress,
-//    paymentChecker,
-//    participantInitializer,
-//    paymentLogger,
-//  )
+  .dependsOn(
+    root
+  )
 
 
 def appModule(moduleID: String): Project = {
@@ -128,7 +136,7 @@ def appModule(moduleID: String): Project = {
 
 
 
-
+// This is what is was before splitting into multi-module project.
 
 
 //tag::get-started[]
