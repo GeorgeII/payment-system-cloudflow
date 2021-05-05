@@ -8,6 +8,8 @@ import org.apache.flink.streaming.api.functions.co.RichCoFlatMapFunction
 import org.apache.flink.streaming.api.scala.{ createTypeInformation, DataStream }
 import org.apache.flink.util.Collector
 
+case class SuccessfulPayment(message: String)
+
 class PaymentProcessingStreamlet extends FlinkStreamlet {
 
   @transient val inParticipants = AvroInlet[BankAccount]("accounts")
@@ -33,7 +35,6 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
     }
   }
 
-  case class SuccessfulPayment(message: String)
 
   class EnrichmentFunction extends RichCoFlatMapFunction[BankAccount, ParsedPayment, Either[InvalidTransfer, SuccessfulPayment]] {
 
