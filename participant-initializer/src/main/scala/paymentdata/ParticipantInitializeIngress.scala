@@ -1,14 +1,15 @@
 package paymentdata
 
-import akka.stream.scaladsl.{ Flow, Source }
+import akka.stream.scaladsl.{Flow, Source}
 import cloudflow.akkastream.scaladsl.RunnableGraphStreamletLogic
 import cloudflow.akkastream.AkkaStreamlet
 import cloudflow.streamlets.StreamletShape
 import cloudflow.streamlets.avro.AvroOutlet
-import paymentdata.utils.FileReader.{ getAllFilesFromFolder, readLinesInFile }
-import paymentdata.utils.PaymentUtils.{ extractParticipantsAndValue, generateBalance, isValid }
+import paymentdata.utils.FileReader.{getAllFilesFromFolder, readLinesInFile}
+import paymentdata.utils.PaymentUtils.{extractParticipantsAndValue, generateBalance, isValid}
 
 import java.io.File
+import scala.concurrent.duration.DurationInt
 
 /**
  * Instead of receiving JSON data via REST requests, this streamlet randomly generates balances
@@ -43,6 +44,8 @@ class ParticipantInitializeIngress extends AkkaStreamlet {
         .via(flatParticipants)
         .via(generateBankAccount)
         .async
+        // remove this line in case you get tired of throttling
+//        .throttle(3, 1.second)
         .to(plainSink(out))
     }
   }

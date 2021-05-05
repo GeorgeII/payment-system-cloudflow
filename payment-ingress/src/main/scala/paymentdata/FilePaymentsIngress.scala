@@ -1,13 +1,14 @@
 package paymentdata
 
-import akka.stream.scaladsl.{ Flow, Source }
+import akka.stream.scaladsl.{Flow, Source}
 import cloudflow.akkastream.scaladsl.RunnableGraphStreamletLogic
 import cloudflow.akkastream.AkkaStreamlet
 import cloudflow.streamlets.StreamletShape
 import cloudflow.streamlets.avro.AvroOutlet
-import paymentdata.utils.FileReader.{ getAllFilesFromFolder, readLinesInFile }
+import paymentdata.utils.FileReader.{getAllFilesFromFolder, readLinesInFile}
 
 import java.io.File
+import scala.concurrent.duration.DurationInt
 
 class FilePaymentsIngress extends AkkaStreamlet {
 
@@ -28,6 +29,8 @@ class FilePaymentsIngress extends AkkaStreamlet {
         .async
         .via(wrapping)
         .async
+        // remove this line to get rid of throttling
+//        .throttle(3, 1.second)
         .to(plainSink(out))
     }
   }
