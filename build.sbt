@@ -64,14 +64,14 @@ dynverSeparator in ThisBuild := "-"
 lazy val root = appModule("root")
   .enablePlugins(CloudflowApplicationPlugin)
   .settings(
-    runLocalConfigFile := Some("src/main/resources/local.conf"), //<1>
-//    runLocalLog4jConfigFile := Some("src/main/resources/log4j.xml"), //<2>
+    runLocalConfigFile := Some("root/src/main/resources/local.conf"), //<1>
+    runLocalLog4jConfigFile := Some("root/src/main/resources/log4j.xml"), //<2>
     libraryDependencies ++= Dependencies.all
   )
 
 lazy val utils = appModule("utils")
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root
@@ -80,7 +80,8 @@ lazy val utils = appModule("utils")
 lazy val paymentIngress = appModule("payment-ingress")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.akkaStreamlet,
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root,
@@ -90,7 +91,8 @@ lazy val paymentIngress = appModule("payment-ingress")
 lazy val paymentChecker = appModule("payment-checker")
   .enablePlugins(CloudflowFlinkPlugin)
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.flinkStreamlet,
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root,
@@ -100,7 +102,8 @@ lazy val paymentChecker = appModule("payment-checker")
 lazy val participantInitializer = appModule("participant-initializer")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.akkaStreamlet,
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root,
@@ -110,7 +113,8 @@ lazy val participantInitializer = appModule("participant-initializer")
 lazy val paymentLogger = appModule("payment-logger")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.akkaStreamlet,
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root
@@ -119,7 +123,8 @@ lazy val paymentLogger = appModule("payment-logger")
 lazy val paymentProcessor = appModule("payment-processor")
   .enablePlugins(CloudflowFlinkPlugin)
   .settings(
-    libraryDependencies ++= Dependencies.all
+    libraryDependencies ++= Dependencies.flinkStreamlet,
+    libraryDependencies ++= Dependencies.common
   )
   .dependsOn(
     root
