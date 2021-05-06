@@ -24,9 +24,16 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
         readStream(inParticipants)
           .keyBy(_.accountId)
 
+      // This keyBy is a must because later on we connect it with `keyedAccounts`.
+      // Technically, it does nothing and we need it only for compatibility with CoFlatMap because otherwise an error
+      // will be thrown during runtime.
+      val keyedPayments: DataStream[ParsedPayment] =
+        readStream(inPayments)
+          .keyBy(_.fromParticipant)
+
       val processedPayments: DataStream[InvalidTransfer] =
         keyedAccounts
-          .connect(readStream(inPayments))
+          .connect(keyedPayments)
           .flatMap(new EnrichmentFunction)
           .filter(_.isLeft)
           .map(_.left.get)
@@ -38,12 +45,13 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
 
   class EnrichmentFunction extends RichCoFlatMapFunction[BankAccount, ParsedPayment, Either[InvalidTransfer, SuccessfulPayment]] {
 
-    type Balance = Long
+    type Balance   = Long
+    type AccountId = String
 
-    private lazy val accountsState: MapState[String, Balance] =
+    private lazy val accountsState: MapState[AccountId, Balance] =
       getRuntimeContext
         .getMapState(
-          new MapStateDescriptor[String, Balance]("balance", classOf[String], classOf[Balance])
+          new MapStateDescriptor[AccountId, Balance]("balance", classOf[AccountId], classOf[Balance])
         )
 
     /**
@@ -78,11 +86,7 @@ class PaymentProcessingStreamlet extends FlinkStreamlet {
           out.collect(Left(InvalidTransfer(payment.toString, "InsufficientBalance")))
         }
       } else {
-        out.collect(
-          Left(
-            InvalidTransfer(payment.toString, "AccountNotFound")
-          )
-        )
+        out.collect(Left(InvalidTransfer(payment.toString, "AccountNotFound")))
       }
     }
   }
