@@ -15,10 +15,11 @@ class PaymentLoggingEgress extends AkkaStreamlet {
     override def runnableGraph() =
       plainSource(in)
         .to(Sink.foreach {
-          case InvalidTransfer(data, "IncorrectAttributes") => log.info(s"Incorrect attributes: [$data]")
-          case InvalidTransfer(data, "InsufficientBalance") => log.warn(s"Insufficient balance: [$data]")
-          case InvalidTransfer(data, "AccountNotFound") =>
-            log.warn(s"One of participant (or both) has not been initialized yet: [$data]")
+          case InvalidTransfer(data, "IncorrectAttributes") => log.info(s"Incorrect attributes: $data")
+          case InvalidTransfer(data, "InsufficientBalance") =>
+            log.warn(s"Insufficient balance: $data. The payment was rejected")
+          case InvalidTransfer(data, "AccountNotFound")     =>
+            log.warn(s"One of participants (or both) has not been initialized yet: $data. The payment was rejected")
         })
   }
 
