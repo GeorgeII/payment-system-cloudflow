@@ -2,16 +2,29 @@ import sbt._
 
 object Dependencies {
 
-  lazy val all: Seq[ModuleID] = Seq(
-    Cloudflow.Flink,
-    Cloudflow.Akka,
+  lazy val all: Seq[ModuleID] = common ++ akkaStreamlet ++ flinkStreamlet
+
+  lazy val common: Seq[ModuleID] = Seq(
+    "ch.qos.logback" % "logback-classic" % versions.logback,
+    "org.scalatest"  %% "scalatest"      % versions.scalatest   % "test"
+  )
+
+  lazy val akkaStreamlet: Seq[ModuleID] = Seq(
+//    Cloudflow.Akka,
     "com.lightbend.akka" %% "akka-stream-alpakka-file" % versions.alpakka,
     "com.typesafe.akka"  %% "akka-http-spray-json"     % versions.`akka-http`,
-    "ch.qos.logback"     % "logback-classic"           % versions.logback,
     "com.typesafe.akka"  %% "akka-protobuf"            % versions.akka,
-    "com.typesafe.akka"  %% "akka-http-testkit"        % versions.`akka-http` % "test",
-    "org.scalatest"      %% "scalatest"                % versions.scalatest   % "test"
+    "com.typesafe.akka"  %% "akka-http-testkit"        % versions.`akka-http` % "test"
   )
+
+  lazy val flinkStreamlet: Seq[ModuleID] = Seq(
+//    Cloudflow.Flink
+  )
+
+  object Cloudflow {
+//    lazy val Flink = "com.lightbend.cloudflow" %% "cloudflow-flink" % versions.cloudflow
+//    lazy val Akka  = "com.lightbend.cloudflow" %% "cloudflow-akka"  % versions.cloudflow
+  }
 
   object versions {
     val cloudflow   = "2.0.18"
@@ -20,10 +33,5 @@ object Dependencies {
     val `akka-http` = "10.1.12"
     val logback     = "1.2.3"
     val scalatest   = "3.0.8"
-  }
-
-  object Cloudflow {
-    lazy val Flink = "com.lightbend.cloudflow" %% "cloudflow-flink" % versions.cloudflow
-    lazy val Akka  = "com.lightbend.cloudflow" %% "cloudflow-akka"  % versions.cloudflow
   }
 }
