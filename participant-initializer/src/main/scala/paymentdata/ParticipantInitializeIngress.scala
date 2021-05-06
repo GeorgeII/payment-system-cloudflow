@@ -45,7 +45,7 @@ class ParticipantInitializeIngress extends AkkaStreamlet {
         .via(generateBankAccount)
         .async
         // remove this line in case you get tired of throttling
-//        .throttle(3, 1.second)
+        .throttle(5000, 1.second)
         .to(plainSink(out))
     }
   }

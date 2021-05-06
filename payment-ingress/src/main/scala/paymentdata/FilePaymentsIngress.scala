@@ -30,7 +30,7 @@ class FilePaymentsIngress extends AkkaStreamlet {
         .via(wrapping)
         .async
         // remove this line to get rid of throttling
-//        .throttle(3, 1.second)
+        .throttle(3000, 1.second)
         .to(plainSink(out))
     }
   }
